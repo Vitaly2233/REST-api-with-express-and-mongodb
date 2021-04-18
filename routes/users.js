@@ -1,13 +1,17 @@
 const express = require("express");
-const posts = require("../models/userData");
+const User = require("../models/userData");
 const router = express.Router();
 
-router.get("/", (req, res) => {
-	res.send({ name: "Vasua", age: 25, work: "JsDeveloper" });
-});
-router.post("/", (req, res) => {
-	console.log("Hello");
+router.post("/", async (req, res) => {
 	console.log(req.body);
+});
+router.get("/", async (req, res) => {
+	try {
+		const users = await User.find();
+		res.json(users);
+	} catch (e) {
+		console.log(e);
+	}
 });
 
 module.exports = router;

@@ -1,13 +1,12 @@
 const mongoose = require("mongoose");
 const express = require("express");
+const bodyParser = require("body-parser");
 require("dotenv/config");
-
+//express module
 const PORT = process.env.PORT || 3000;
 const app = express();
 
 //import routes
-const usersRoute = require("./routes/users");
-app.use("/users", usersRoute);
 
 async function start() {
 	try {
@@ -23,12 +22,13 @@ async function start() {
 		app.listen(PORT, () => {
 			console.log("Server started");
 		});
-		app.post("/test", function (req, res) {
-			res.send("Got a POST request");
-		});
 	} catch (e) {
 		console.log(e);
 	}
 }
 
 start();
+const usersRoute = require("./routes/users");
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use("/users", usersRoute);
